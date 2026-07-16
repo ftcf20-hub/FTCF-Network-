@@ -3,152 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>FTCF Portal</title>
-    <link rel="manifest" href="manifest.json">
-    <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/2965/2965879.png">
-    
+    <title>FTCF | Premium Portal</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        /* --- Premium Splash Screen Styles --- */
-        #splash {
-            position: fixed; inset: 0;
-            /* Dark Gradient Background */
-            background: linear-gradient(135deg, #0f172a 0%, #020617 100%);
-            z-index: 1000;
-            display: flex; flex-direction: column;
-            justify-content: center; align-items: center;
-            transition: opacity 0.8s ease-in-out, visibility 0.8s;
-        }
+        body { background-color: #020617; font-family: 'Inter', sans-serif; }
+        
+        /* Premium Glassmorphism */
+        .glass { background: rgba(15, 23, 42, 0.7); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
+        
+        #splash { position: fixed; inset: 0; background: #020617; z-index: 1000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: 0.8s ease; }
         .fade-out { opacity: 0; visibility: hidden; }
 
-        /* Logo Animation Container */
-        .logo-container {
-            position: relative;
-            width: 100px; height: 100px;
-            display: flex; justify-content: center; align-items: center;
-            margin-bottom: 20px;
-        }
-
-        /* Spinning Ring around Logo */
-        .spinner-ring {
-            position: absolute;
-            width: 100%; height: 100%;
-            border: 3px solid rgba(245, 158, 11, 0.1);
-            border-top-color: #f59e0b;
-            border-radius: 50%;
-            animation: spin 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
-        }
-
-        /* The 'F' in Logo */
-        .logo-text {
-            font-size: 40px; font-weight: 900; color: #f59e0b;
-            animation: fadeInScale 1s ease-in-out;
-            text-shadow: 0 0 15px rgba(245, 158, 11, 0.5);
-        }
-
-        /* Main Welcome Text */
-        .welcome-title {
-            font-size: 24px; font-weight: 800;
-            color: white; letter-spacing: 2px;
-            text-transform: uppercase;
-            margin-top: 10px;
-            animation: slideUp 1s ease-out 0.5s both;
-        }
-
-        /* Subtitle */
-        .welcome-subtitle {
-            font-size: 10px; font-weight: 600;
-            color: #94a3b8; letter-spacing: 3px;
-            text-transform: uppercase;
-            margin-top: 5px;
-            animation: slideUp 1s ease-out 0.7s both;
-        }
-
-        /* Progress Bar (Loading line) */
-        .loading-line-container {
-            position: absolute; bottom: 40px;
-            width: 200px; height: 2px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 2px; overflow: hidden;
-        }
-        .loading-line {
-            width: 0%; height: 100%;
-            background: #f59e0b;
-            box-shadow: 0 0 10px #f59e0b;
-            animation: loadBar 3s linear forwards;
-        }
-
-        /* Keyframes */
-        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-        @keyframes fadeInScale { 0% { opacity: 0; transform: scale(0.5); } 100% { opacity: 1; transform: scale(1); } }
-        @keyframes slideUp { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
-        @keyframes loadBar { 0% { width: 0%; } 100% { width: 100%; } }
-
-        /* --- Main App Styles (Same as before) --- */
-        .tab-content { display: none; height: calc(100vh - 65px); position: relative; }
+        /* Premium Tab Content */
+        .tab-content { display: none; height: 100vh; padding-bottom: 70px; overflow-y: auto; }
         .tab-content.active { display: block; }
         iframe { width: 100%; height: 100%; border: none; }
-        .spinner { position: absolute; top: 40%; left: 50%; transform: translate(-50%, -50%); width: 30px; height: 30px; border: 3px solid rgba(245, 158, 11, 0.2); border-top: 3px solid #f59e0b; border-radius: 50%; animation: spin 1s linear infinite; }
-        .active-dot { width: 4px; height: 4px; border-radius: 50%; background: #f59e0b; margin-top: 4px; display: none; }
-        .tab-btn.active .active-dot { display: block; }
+        
+        /* Pull to Refresh Indicator */
+        .ptr-loader { position: absolute; top: 10px; width: 100%; text-align: center; color: #f59e0b; display: none; }
     </style>
 </head>
-<body class="bg-slate-950 text-white font-sans overflow-hidden">
+<body class="text-slate-200">
 
+    <!-- Splash Screen -->
     <div id="splash">
-        <div class="logo-container">
-            <div class="spinner-ring"></div>
-            <span class="logo-text">F</span>
-        </div>
-        <h1 class="welcome-title">FTCF Portal</h1>
-        <p class="welcome-subtitle">Mughal Brothers Network</p>
-        
-        <div class="loading-line-container">
-            <div class="loading-line"></div>
+        <div class="text-amber-500 text-6xl font-bold mb-4 animate-pulse">FTCF</div>
+        <div class="w-12 h-1 bg-slate-800 rounded-full overflow-hidden">
+            <div class="h-full bg-amber-500 animate-[load_2s_ease-in-out_infinite]"></div>
         </div>
     </div>
 
-    <div id="ledger" class="tab-content active"><div class="spinner"></div><iframe src="https://ftcf20-hub.github.io/FTCF.com/" onload="hideSpinner(this)"></iframe></div>
-    <div id="monthly" class="tab-content"><div class="spinner"></div><iframe src="https://ftcf20-hub.github.io/Monthly-Status/" onload="hideSpinner(this)"></iframe></div>
-    <div id="yearly" class="tab-content"><div class="spinner"></div><iframe src="https://ftcf20-hub.github.io/Yearly-Record/" onload="hideSpinner(this)"></iframe></div>
-    <div id="rules" class="tab-content"><div class="spinner"></div><iframe src="https://ftcf20-hub.github.io/Loneportal/" onload="hideSpinner(this)"></iframe></div>
+    <!-- Main Content -->
+    <div id="ledger" class="tab-content active"><iframe src="https://ftcf20-hub.github.io/FTCF.com/"></iframe></div>
+    <div id="monthly" class="tab-content"><iframe src="https://ftcf20-hub.github.io/Monthly-Status/"></iframe></div>
+    <div id="yearly" class="tab-content"><iframe src="https://ftcf20-hub.github.io/Yearly-Record/"></iframe></div>
+    <div id="rules" class="tab-content"><iframe src="https://ftcf20-hub.github.io/Loneportal/"></iframe></div>
 
-    <nav class="fixed bottom-0 left-0 w-full flex justify-around items-center bg-slate-900/95 backdrop-blur-md px-2 py-2 border-t border-white/5 z-50">
-        <button onclick="switchTab(event, 'ledger')" class="tab-btn active flex flex-col items-center text-[9px] font-bold uppercase tracking-wider text-amber-500">
-            <i class="fas fa-file-invoice-dollar text-[16px]"></i> <span class="mt-1">Ledger</span><div class="active-dot"></div>
+    <!-- Premium Navigation -->
+    <nav class="fixed bottom-4 left-4 right-4 glass rounded-2xl p-3 flex justify-around items-center z-50 shadow-2xl">
+        <button onclick="switchTab('ledger')" class="tab-btn active text-amber-500 flex flex-col items-center p-2 rounded-xl transition-all">
+            <i class="fas fa-wallet text-xl"></i>
         </button>
-        <button onclick="switchTab(event, 'monthly')" class="tab-btn flex flex-col items-center text-[9px] font-bold uppercase tracking-wider opacity-40">
-            <i class="fas fa-calendar-alt text-[16px]"></i> <span class="mt-1">Monthly</span><div class="active-dot"></div>
+        <button onclick="switchTab('monthly')" class="tab-btn text-slate-500 flex flex-col items-center p-2 rounded-xl transition-all">
+            <i class="fas fa-calendar-check text-xl"></i>
         </button>
-        <button onclick="switchTab(event, 'yearly')" class="tab-btn flex flex-col items-center text-[9px] font-bold uppercase tracking-wider opacity-40">
-            <i class="fas fa-chart-pie text-[16px]"></i> <span class="mt-1">Yearly</span><div class="active-dot"></div>
+        <button onclick="switchTab('yearly')" class="tab-btn text-slate-500 flex flex-col items-center p-2 rounded-xl transition-all">
+            <i class="fas fa-chart-line text-xl"></i>
         </button>
-        <button onclick="switchTab(event, 'rules')" class="tab-btn flex flex-col items-center text-[9px] font-bold uppercase tracking-wider opacity-40">
-            <i class="fas fa-book-open text-[16px]"></i> <span class="mt-1">Rules</span><div class="active-dot"></div>
+        <button onclick="switchTab('rules')" class="tab-btn text-slate-500 flex flex-col items-center p-2 rounded-xl transition-all">
+            <i class="fas fa-gavel text-xl"></i>
         </button>
     </nav>
 
     <script>
-        // Splash Screen Timer - Matches CSS animation duration (3s)
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.getElementById('splash').classList.add('fade-out');
-            }, 3000); // 3 seconds
-        });
+        // Splash Timer
+        window.addEventListener('load', () => setTimeout(() => document.getElementById('splash').classList.add('fade-out'), 2000));
 
-        function hideSpinner(iframe) { iframe.previousElementSibling.style.display = 'none'; }
-
-        function switchTab(event, tabId) {
+        // Tab Switching
+        function switchTab(id) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-btn').forEach(b => {
-                b.classList.remove('active', 'text-amber-500');
-                b.classList.add('opacity-40');
+                b.classList.remove('text-amber-500');
+                b.classList.add('text-slate-500');
             });
-            document.getElementById(tabId).classList.add('active');
-            event.currentTarget.classList.add('active', 'text-amber-500');
-            event.currentTarget.classList.remove('opacity-40');
+            document.getElementById(id).classList.add('active');
+            event.currentTarget.classList.add('text-amber-500');
         }
+
+        // Pull to Refresh Logic
+        let touchstartY = 0;
+        document.addEventListener('touchstart', e => touchstartY = e.touches[0].clientY);
+        document.addEventListener('touchend', e => {
+            let touchendY = e.changedTouches[0].clientY;
+            if (touchendY - touchstartY > 100) { // If pulled down > 100px
+                const activeIframe = document.querySelector('.tab-content.active iframe');
+                activeIframe.src = activeIframe.src; // Simple refresh
+            }
+        });
     </script>
 </body>
 </html>
