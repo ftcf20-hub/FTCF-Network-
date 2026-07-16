@@ -7,8 +7,15 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-messaging-compat.js"></script>
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: "8dea0625-69bd-48cf-a3fb-aeb642db3418",
+        });
+      });
+    </script>
 
     <style>
         body { background-color: #020617; font-family: 'Segoe UI', sans-serif; overflow: hidden; margin: 0; }
@@ -42,7 +49,7 @@
     <nav class="fixed bottom-4 left-4 right-4 glass rounded-2xl p-3 flex justify-around items-center z-50 shadow-2xl">
         <button onclick="switchTab('ledger', this)" class="tab-btn text-amber-500 p-2"><i class="fas fa-wallet text-xl"></i></button>
         <button onclick="switchTab('monthly', this)" class="tab-btn text-slate-500 p-2"><i class="fas fa-calendar-check text-xl"></i></button>
-        <button onclick="getMyToken()" class="text-slate-500 p-2"><i class="fas fa-bell text-xl"></i></button>
+        <button onclick="window.OneSignalDeferred.push(function(OneSignal) { OneSignal.showNativePrompt(); })" class="text-slate-500 p-2"><i class="fas fa-bell text-xl"></i></button>
         <button onclick="switchTab('yearly', this)" class="tab-btn text-slate-500 p-2"><i class="fas fa-chart-line text-xl"></i></button>
         <button onclick="switchTab('rules', this)" class="tab-btn text-slate-500 p-2"><i class="fas fa-gavel text-xl"></i></button>
     </nav>
@@ -52,35 +59,6 @@
             const splash = document.getElementById('splash');
             if(splash) { splash.classList.add('fade-out'); setTimeout(() => splash.style.display = 'none', 800); }
         }, 3000));
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyCeT7cxscG5PZBv97_5P93jTr-_Rsc6Sng",
-            authDomain: "notification-centre-2e377.firebaseapp.com",
-            projectId: "notification-centre-2e377",
-            storageBucket: "notification-centre-2e377.firebasestorage.app",
-            messagingSenderId: "709598083507",
-            appId: "1:709598083507:web:c44f1059b3ad902894f3c6"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const messaging = firebase.messaging();
-
-        function getMyToken() {
-            // Direct request, bina kisi external file ke
-            Notification.requestPermission().then((permission) => {
-                if (permission === 'granted') {
-                    messaging.getToken({ 
-                        vapidKey: 'BAhiPezxBfe4QMVy4HW1bbn_3Z3RSJMlp2Q44_r5dcnUZcKBUA8RlGe3RuTi0ICe-J61wR68s7_iEUGAkuVGtFQ' 
-                    }).then((token) => {
-                        alert("Token: " + token);
-                        console.log("Token:", token);
-                    }).catch((err) => {
-                        alert("Error: " + err.message);
-                    });
-                } else {
-                    alert("Permission allow nahi hai!");
-                }
-            });
-        }
 
         function switchTab(id, btn) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
