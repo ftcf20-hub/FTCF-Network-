@@ -19,30 +19,36 @@
         event.currentTarget.classList.remove('opacity-40');
     }
 
-    // --- New Features ---
+    // --- Fixed Features ---
 
-    // 1. Bottom Nav Hiding on Scroll
-    let lastScrollTop = 0;
-    window.addEventListener("scroll", function() {
-        let currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-        let nav = document.querySelector('nav');
-        if (currentScroll > lastScrollTop) {
-            nav.style.transform = "translateY(100%)"; // Hide
-        } else {
-            nav.style.transform = "translateY(0)"; // Show
-        }
-        lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
-    }, false);
+    // Scroll aur Pull-to-refresh iframe ke andar listen karne ke liye
+    const frames = document.querySelectorAll('iframe');
+    frames.forEach(frame => {
+        frame.addEventListener('load', function() {
+            let doc = this.contentDocument;
+            let lastScrollTop = 0;
+            let nav = document.querySelector('nav');
 
-    // 2. Pull-to-Refresh logic
-    let touchstartY = 0;
-    document.addEventListener('touchstart', e => { touchstartY = e.changedTouches[0].screenY; }, false);
-    document.addEventListener('touchend', e => {
-        let touchendY = e.changedTouches[0].screenY;
-        if (touchendY - touchstartY > 100 && window.scrollY === 0) {
-            // Refresh current active iframe
-            let activeIframe = document.querySelector('.tab-content.active iframe');
-            activeIframe.src = activeIframe.src;
-        }
-    }, false);
-        </script>
+            doc.addEventListener('scroll', function() {
+                let st = doc.documentElement.scrollTop;
+                // Bottom Nav Hiding
+                if (st > lastScrollTop) {
+                    nav.style.transform = "translateY(100%)";
+                } else {
+                    nav.style.transform = "translateY(0)";
+                }
+                lastScrollTop = st;
+            });
+
+            // Pull-to-Refresh
+            let touchstartY = 0;
+            doc.addEventListener('touchstart', e => { touchstartY = e.changedTouches[0].screenY; });
+            doc.addEventListener('touchend', e => {
+                let touchendY = e.changedTouches[0].screenY;
+                if (touchendY - touchstartY > 100 && doc.documentElement.scrollTop === 0) {
+                    frame.src = frame.src; // Refresh
+                }
+            });
+        });
+    });
+</script>
