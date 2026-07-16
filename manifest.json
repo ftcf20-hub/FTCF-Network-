@@ -1,0 +1,17 @@
+{
+  "name": "FTCF Portal",
+  "short_name": "FTCF",
+  "description": "Mughal Brothers Network Portal",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#020617",
+  "theme_color": "#f59e0b",
+  "icons": [
+    {
+      "src": "https://cdn-icons-png.flaticon.com/512/2965/2965879.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
