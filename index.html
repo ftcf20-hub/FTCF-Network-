@@ -73,7 +73,9 @@
                     }).then((token) => {
                         alert("Aapka Token ye raha: " + token);
                         console.log("Token:", token);
-                    }).catch((err) => alert("Error: " + err));
+                    }).catch((err) => {
+                        alert("Token lene mein masla hua, check karein kya `firebase-messaging-sw.js` file upload hai?");
+                    });
                 } else {
                     alert("Please notification permission allow karein!");
                 }
