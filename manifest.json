@@ -2,7 +2,7 @@
   "name": "FTCF Portal",
   "short_name": "FTCF",
   "description": "Mughal Brothers Network Portal",
-  "start_url": "/",
+  "start_url": "/FTCF-Network-/",
   "display": "standalone",
   "background_color": "#020617",
   "theme_color": "#f59e0b",
