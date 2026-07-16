@@ -7,11 +7,16 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #020617; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+        body { background-color: #020617; font-family: 'Segoe UI', sans-serif; overflow: hidden; margin: 0; }
         
-        /* Splash Screen */
-        #splash { position: fixed; inset: 0; background: #020617; z-index: 1000; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.8s ease, visibility 0.8s; }
-        .fade-out { opacity: 0; visibility: hidden; }
+        /* Splash Screen - Fixed */
+        #splash { 
+            position: fixed; inset: 0; background: #020617; z-index: 9999; 
+            display: flex; flex-direction: column; justify-content: center; align-items: center; 
+            transition: opacity 0.8s ease, visibility 0.8s;
+        }
+        
+        .fade-out { opacity: 0 !important; visibility: hidden !important; pointer-events: none; }
 
         /* Animations */
         @keyframes fadeSlide { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
@@ -20,17 +25,15 @@
         .animate-text { animation: fadeSlide 1s ease-out forwards; }
         .animate-sub { animation: fadeSlide 1s ease-out 0.5s forwards; }
 
-        /* Main Content */
         .tab-content { display: none; height: 100vh; }
         .tab-content.active { display: block; }
         iframe { width: 100%; height: 100%; border: none; }
-        
-        /* Nav Glassmorphism */
         .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
     </style>
 </head>
 <body class="text-slate-200">
 
+    <!-- Splash Screen -->
     <div id="splash">
         <h1 class="text-amber-500 text-6xl font-black tracking-tighter mb-2 opacity-0 animate-text">FTCF</h1>
         <p class="text-slate-400 text-sm font-medium tracking-[0.2em] uppercase opacity-0 animate-sub">Mughal Brothers Network</p>
@@ -39,8 +42,45 @@
         </div>
     </div>
 
+    <!-- Main Content -->
     <div id="ledger" class="tab-content active"><iframe src="https://ftcf20-hub.github.io/FTCF.com/"></iframe></div>
     <div id="monthly" class="tab-content"><iframe src="https://ftcf20-hub.github.io/Monthly-Status/"></iframe></div>
     <div id="yearly" class="tab-content"><iframe src="https://ftcf20-hub.github.io/Yearly-Record/"></iframe></div>
     <div id="rules" class="tab-content"><iframe src="https://ftcf20-hub.github.io/Loneportal/"></iframe></div>
-    
+
+    <nav class="fixed bottom-4 left-4 right-4 glass rounded-2xl p-3 flex justify-around items-center z-50 shadow-2xl">
+        <button onclick="switchTab('ledger', this)" class="tab-btn text-amber-500 p-2"><i class="fas fa-wallet text-xl"></i></button>
+        <button onclick="switchTab('monthly', this)" class="tab-btn text-slate-500 p-2"><i class="fas fa-calendar-check text-xl"></i></button>
+        <button onclick="switchTab('yearly', this)" class="tab-btn text-slate-500 p-2"><i class="fas fa-chart-line text-xl"></i></button>
+        <button onclick="switchTab('rules', this)" class="tab-btn text-slate-500 p-2"><i class="fas fa-gavel text-xl"></i></button>
+    </nav>
+
+    <script>
+        // Force remove splash screen after 3 seconds
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                const splash = document.getElementById('splash');
+                splash.classList.add('fade-out');
+                // Remove from DOM entirely after transition
+                setTimeout(() => splash.style.display = 'none', 800);
+            }, 3000);
+        });
+
+        function switchTab(id, btn) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.className = b.className.replace('text-amber-500', 'text-slate-500'));
+            document.getElementById(id).classList.add('active');
+            btn.className = btn.className.replace('text-slate-500', 'text-amber-500');
+        }
+
+        let touchstartY = 0;
+        document.addEventListener('touchstart', e => touchstartY = e.touches[0].clientY);
+        document.addEventListener('touchend', e => {
+            if (e.changedTouches[0].clientY - touchstartY > 100) {
+                const activeIframe = document.querySelector('.tab-content.active iframe');
+                activeIframe.src = activeIframe.src;
+            }
+        });
+    </script>
+</body>
+</html>
