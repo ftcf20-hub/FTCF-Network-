@@ -65,12 +65,13 @@
         const messaging = firebase.messaging();
 
         function getMyToken() {
+            // Direct request, bina kisi external file ke
             Notification.requestPermission().then((permission) => {
                 if (permission === 'granted') {
                     messaging.getToken({ 
                         vapidKey: 'BAhiPezxBfe4QMVy4HW1bbn_3Z3RSJMlp2Q44_r5dcnUZcKBUA8RlGe3RuTi0ICe-J61wR68s7_iEUGAkuVGtFQ' 
                     }).then((token) => {
-                        alert("Token mil gaya: " + token);
+                        alert("Token: " + token);
                         console.log("Token:", token);
                     }).catch((err) => {
                         alert("Error: " + err.message);
