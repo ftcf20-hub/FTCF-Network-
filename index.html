@@ -12,22 +12,12 @@
 
     <style>
         body { background-color: #020617; font-family: 'Segoe UI', sans-serif; overflow: hidden; margin: 0; }
-        
-        /* Splash Screen */
-        #splash { 
-            position: fixed; inset: 0; background: #020617; z-index: 9999; 
-            display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            transition: opacity 0.8s ease, visibility 0.8s;
-        }
-        
+        #splash { position: fixed; inset: 0; background: #020617; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.8s ease, visibility 0.8s; }
         .fade-out { opacity: 0 !important; visibility: hidden !important; pointer-events: none; }
-
         @keyframes fadeSlide { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
         @keyframes fillBar { 0% { width: 0%; } 100% { width: 100%; } }
-        
         .animate-text { animation: fadeSlide 1s ease-out forwards; }
         .animate-sub { animation: fadeSlide 1s ease-out 0.5s forwards; }
-
         .tab-content { display: none; height: 100vh; }
         .tab-content.active { display: block; }
         iframe { width: 100%; height: 100%; border: none; }
@@ -52,21 +42,18 @@
     <nav class="fixed bottom-4 left-4 right-4 glass rounded-2xl p-3 flex justify-around items-center z-50 shadow-2xl">
         <button onclick="switchTab('ledger', this)" class="tab-btn text-amber-500 p-2"><i class="fas fa-wallet text-xl"></i></button>
         <button onclick="switchTab('monthly', this)" class="tab-btn text-slate-500 p-2"><i class="fas fa-calendar-check text-xl"></i></button>
+        <button onclick="getMyToken()" class="text-slate-500 p-2"><i class="fas fa-bell text-xl"></i></button>
         <button onclick="switchTab('yearly', this)" class="tab-btn text-slate-500 p-2"><i class="fas fa-chart-line text-xl"></i></button>
         <button onclick="switchTab('rules', this)" class="tab-btn text-slate-500 p-2"><i class="fas fa-gavel text-xl"></i></button>
     </nav>
 
     <script>
-        // Force remove splash screen after 3 seconds
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const splash = document.getElementById('splash');
-                splash.classList.add('fade-out');
-                setTimeout(() => splash.style.display = 'none', 800);
-            }, 3000);
-        });
+        window.addEventListener('load', () => setTimeout(() => {
+            const splash = document.getElementById('splash');
+            splash.classList.add('fade-out');
+            setTimeout(() => splash.style.display = 'none', 800);
+        }, 3000));
 
-        // Firebase Logic
         const firebaseConfig = {
             apiKey: "AIzaSyCeT7cxscG5PZBv97_5P93jTr-_Rsc6Sng",
             authDomain: "notification-centre-2e377.firebaseapp.com",
@@ -78,12 +65,20 @@
         firebase.initializeApp(firebaseConfig);
         const messaging = firebase.messaging();
 
-        Notification.requestPermission().then((permission) => {
-            if (permission === 'granted') {
-                messaging.getToken({ vapidKey: 'BAhiPezxBfe4QMVy4HW1bbn_3Z3RSJMlp2Q44_r5dcnUZcKBUA8RlGe3RuTi0ICe-J61wR68s7_iEUGAkuVGtFQ' })
-                .then((token) => console.log("Token:", token));
-            }
-        });
+        function getMyToken() {
+            Notification.requestPermission().then((permission) => {
+                if (permission === 'granted') {
+                    messaging.getToken({ 
+                        vapidKey: 'BAhiPezxBfe4QMVy4HW1bbn_3Z3RSJMlp2Q44_r5dcnUZcKBUA8RlGe3RuTi0ICe-J61wR68s7_iEUGAkuVGtFQ' 
+                    }).then((token) => {
+                        alert("Aapka Token ye raha: " + token);
+                        console.log("Token:", token);
+                    }).catch((err) => alert("Error: " + err));
+                } else {
+                    alert("Please notification permission allow karein!");
+                }
+            });
+        }
 
         function switchTab(id, btn) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
