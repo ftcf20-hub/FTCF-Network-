@@ -2,19 +2,17 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!-- Meta tags to force browser to get fresh data -->
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FTCF | Premium Portal</title>
     
-    <!-- Updated manifest link to force refresh configuration -->
-    <link rel="manifest" href="manifest_v3.json">
+    <!-- Manifest path updated to root-relative -->
+    <link rel="manifest" href="/FTCF-Network-/manifest_v4.json">
     
-    <!-- Updated Icon Links with versioning to force refresh -->
-    <link rel="apple-touch-icon" href="https://i.postimg.cc/fTY6C21N/1784308656105.jpg?v=3">
-    <link rel="icon" type="image/jpeg" href="https://i.postimg.cc/fTY6C21N/1784308656105.jpg?v=3">
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/fTY6C21N/1784308656105.jpg?v=2">
+    <link rel="icon" type="image/jpeg" href="https://i.postimg.cc/fTY6C21N/1784308656105.jpg?v=2">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -44,20 +42,7 @@
         <p class="text-slate-500 text-[10px] font-bold tracking-[0.4em] uppercase">Mughal Brothers Network</p>
     </div>
 
-    <div class="fixed top-6 right-6 z-[60]">
-        <button onclick="document.getElementById('notice-popup').classList.remove('hidden')" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-amber-500 hover:bg-amber-500/10 transition-all">
-            <i class="fas fa-bell"></i>
-        </button>
-    </div>
-
-    <div id="notice-popup" class="hidden fixed inset-0 z-[70] flex items-center justify-center p-6 bg-black/60 backdrop-blur-md">
-        <div class="glass-card p-8 rounded-3xl w-full max-w-sm shadow-2xl">
-            <h2 class="text-white text-xl font-bold mb-4">📢 System Notice</h2>
-            <p class="text-slate-400 text-sm leading-relaxed mb-6">Alhamdulillah! App Updated successfully.</p>
-            <button onclick="document.getElementById('notice-popup').classList.add('hidden')" class="w-full py-3 bg-amber-500 hover:bg-amber-600 rounded-xl text-black font-bold transition-all">Close</button>
-        </div>
-    </div>
-
+    <!-- Iframe paths kept as absolute links as they point to sub-domains/repositories -->
     <div id="ledger" class="tab-content active"><iframe src="https://ftcf20-hub.github.io/FTCF.com/"></iframe></div>
     <div id="monthly" class="tab-content"><iframe src="https://ftcf20-hub.github.io/Monthly-Status/"></iframe></div>
     <div id="yearly" class="tab-content"><iframe src="https://ftcf20-hub.github.io/Yearly-Record/"></iframe></div>
