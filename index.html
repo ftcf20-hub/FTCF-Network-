@@ -7,91 +7,71 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
-        body { background-color: #020617; font-family: 'Segoe UI', sans-serif; overflow: hidden; margin: 0; }
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap');
+        body { background-color: #050505; font-family: 'Plus Jakarta Sans', sans-serif; overflow: hidden; margin: 0; }
         
-        #splash { 
-            position: fixed; inset: 0; background: #020617; z-index: 9999; 
-            display: flex; flex-direction: column; justify-content: center; align-items: center; 
-            transition: opacity 0.8s ease, visibility 0.8s;
-        }
+        .glass-nav { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); }
+        .glass-card { background: rgba(20, 20, 20, 0.8); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.05); }
         
-        .fade-out { opacity: 0 !important; visibility: hidden !important; pointer-events: none; }
-
-        @keyframes fadeSlide { 0% { opacity: 0; transform: translateY(20px); } 100% { opacity: 1; transform: translateY(0); } }
-        @keyframes fillBar { 0% { width: 0%; } 100% { width: 100%; } }
+        #splash { position: fixed; inset: 0; background: #050505; z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center; transition: opacity 0.8s ease; }
+        .fade-out { opacity: 0; pointer-events: none; }
         
-        .animate-text { animation: fadeSlide 1s ease-out forwards; }
-        .animate-sub { animation: fadeSlide 1s ease-out 0.5s forwards; }
-
-        .tab-content { display: none; height: 100vh; }
+        .tab-content { display: none; height: 100vh; animation: fadeIn 0.4s ease; }
         .tab-content.active { display: block; }
+        
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         iframe { width: 100%; height: 100%; border: none; }
-        .glass { background: rgba(15, 23, 42, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(255,255,255,0.05); }
+        
+        .active-tab { color: #f59e0b !important; background: rgba(245, 158, 11, 0.1); border-radius: 12px; }
     </style>
 </head>
 <body class="text-slate-200">
 
     <!-- Splash Screen -->
     <div id="splash">
-        <h1 class="text-amber-500 text-6xl font-black tracking-tighter mb-2 opacity-0 animate-text">FTCF</h1>
-        <p class="text-slate-400 text-sm font-medium tracking-[0.2em] uppercase opacity-0 animate-sub">Mughal Brothers Network</p>
-        <div class="absolute bottom-20 w-48 h-[2px] bg-slate-800 rounded-full overflow-hidden">
-            <div class="h-full bg-amber-500 animate-[fillBar_2.5s_ease-in-out_forwards]"></div>
-        </div>
+        <h1 class="text-amber-500 text-5xl font-extrabold tracking-tighter mb-2">FTCF</h1>
+        <p class="text-slate-500 text-[10px] font-bold tracking-[0.3em] uppercase">Mughal Brothers Network</p>
     </div>
 
-    <!-- Bell Icon & Popup -->
-    <div class="fixed top-4 right-4 z-[60]">
-        <button onclick="document.getElementById('notice-popup').classList.toggle('hidden')" class="text-amber-500 text-xl p-2 bg-slate-900 rounded-full shadow-lg border border-slate-700">
+    <!-- Header / Bell -->
+    <div class="fixed top-6 right-6 z-[60]">
+        <button onclick="document.getElementById('notice-popup').classList.remove('hidden')" class="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 text-amber-500 hover:bg-amber-500/10 transition-all">
             <i class="fas fa-bell"></i>
         </button>
     </div>
 
-    <div id="notice-popup" class="hidden fixed inset-0 z-[70] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-        <div class="glass p-6 rounded-2xl w-full max-w-sm border border-slate-700 shadow-2xl">
-            <h2 class="text-amber-500 font-bold mb-3 flex items-center gap-2"><i class="fas fa-info-circle"></i> Important Notice</h2>
-            <p id="notice-text" class="text-slate-300 text-sm mb-4">Alhamdulillah! New App Use K Liye Ready hai Jo Har Member Apne Mobile Me Asani se Install kar sakta hai.</p>
-            <button onclick="document.getElementById('notice-popup').classList.add('hidden')" class="w-full py-2 bg-amber-600 hover:bg-amber-500 rounded-lg text-white font-semibold">Close</button>
+    <!-- Notice Popup -->
+    <div id="notice-popup" class="hidden fixed inset-0 z-[70] flex items-center justify-center p-6 bg-black/60 backdrop-blur-md">
+        <div class="glass-card p-8 rounded-3xl w-full max-w-sm border border-slate-800 shadow-2xl">
+            <h2 class="text-white text-xl font-bold mb-4">📢 System Notice</h2>
+            <p class="text-slate-400 text-sm leading-relaxed mb-6">Yahan apna update likhein. Yeh area ab aur zyada clean aur modern hai.</p>
+            <button onclick="document.getElementById('notice-popup').classList.add('hidden')" class="w-full py-3 bg-amber-500 hover:bg-amber-600 rounded-xl text-black font-bold transition-all">Understood</button>
         </div>
     </div>
 
-    <!-- Main Content -->
+    <!-- Content -->
     <div id="ledger" class="tab-content active"><iframe src="https://ftcf20-hub.github.io/FTCF.com/"></iframe></div>
     <div id="monthly" class="tab-content"><iframe src="https://ftcf20-hub.github.io/Monthly-Status/"></iframe></div>
     <div id="yearly" class="tab-content"><iframe src="https://ftcf20-hub.github.io/Yearly-Record/"></iframe></div>
     <div id="rules" class="tab-content"><iframe src="https://ftcf20-hub.github.io/Loneportal/"></iframe></div>
 
-    <nav class="fixed bottom-4 left-4 right-4 glass rounded-2xl p-3 flex justify-around items-center z-50 shadow-2xl">
-        <button onclick="switchTab('ledger', this)" class="tab-btn text-amber-500 p-2"><i class="fas fa-wallet text-xl"></i></button>
-        <button onclick="switchTab('monthly', this)" class="tab-btn text-slate-500 p-2"><i class="fas fa-calendar-check text-xl"></i></button>
-        <button onclick="switchTab('yearly', this)" class="tab-btn text-slate-500 p-2"><i class="fas fa-chart-line text-xl"></i></button>
-        <button onclick="switchTab('rules', this)" class="tab-btn text-slate-500 p-2"><i class="fas fa-gavel text-xl"></i></button>
+    <!-- Navigation -->
+    <nav class="fixed bottom-6 left-6 right-6 glass-nav rounded-3xl p-2 flex justify-around items-center z-50">
+        <button onclick="switchTab('ledger', this)" class="tab-btn active-tab p-4 transition-all duration-300"><i class="fas fa-wallet"></i></button>
+        <button onclick="switchTab('monthly', this)" class="tab-btn p-4 text-slate-500 hover:text-slate-300 transition-all"><i class="fas fa-calendar-check"></i></button>
+        <button onclick="switchTab('yearly', this)" class="tab-btn p-4 text-slate-500 hover:text-slate-300 transition-all"><i class="fas fa-chart-line"></i></button>
+        <button onclick="switchTab('rules', this)" class="tab-btn p-4 text-slate-500 hover:text-slate-300 transition-all"><i class="fas fa-gavel"></i></button>
     </nav>
 
     <script>
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                const splash = document.getElementById('splash');
-                splash.classList.add('fade-out');
-                setTimeout(() => splash.style.display = 'none', 800);
-            }, 3000);
-        });
+        window.addEventListener('load', () => setTimeout(() => document.getElementById('splash').classList.add('fade-out'), 1500));
 
         function switchTab(id, btn) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(b => b.className = b.className.replace('text-amber-500', 'text-slate-500'));
+            document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active-tab', 'text-amber-500'));
             document.getElementById(id).classList.add('active');
-            btn.className = btn.className.replace('text-slate-500', 'text-amber-500');
+            btn.classList.add('active-tab', 'text-amber-500');
         }
-
-        let touchstartY = 0;
-        document.addEventListener('touchstart', e => touchstartY = e.touches[0].clientY);
-        document.addEventListener('touchend', e => {
-            if (e.changedTouches[0].clientY - touchstartY > 100) {
-                const activeIframe = document.querySelector('.tab-content.active iframe');
-                activeIframe.src = activeIframe.src;
-            }
-        });
     </script>
 </body>
 </html>
