@@ -1,1 +1,1 @@
-self.addEventListener('fetch', () => {});
+// Service worker disabled temporarily
