@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ftcf-v2'; // Jab bhi koi bada update do, bas ye version number (v2 -> v3) badal dena.
+const CACHE_NAME = 'ftcf-v3'; // Jab bhi koi bada update do, bas ye version number (v2 -> v3) badal dena.
 
 self.addEventListener('install', (event) => {
     event.waitUntil(self.skipWaiting());
