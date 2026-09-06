@@ -218,7 +218,7 @@
         </div>
     </div>
 
-    <!-- Notice Modal -->
+    <!-- Notice Modal (Auto Open & Manual Close Enabled) -->
     <div id="notice-popup" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/70 backdrop-blur-md transition-all">
         <div class="glass-panel p-6 rounded-3xl w-full max-w-sm shadow-2xl border border-white/10">
             <div class="w-12 h-12 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center mb-4">
@@ -226,9 +226,12 @@
             </div>
             <h2 class="text-white text-base font-bold mb-2">System Notice</h2>
             <p class="text-slate-400 text-xs leading-relaxed mb-6">
-                Meeting Announcement,Insha Allah 11 September Jummy ki Namaz k bad Meeting ho gi or Kuch Zarori points per bat Ho gi.
+                السلام علیکم ورحمۃ اللہ وبرکاتہ!
+جمعہ، ۱۱ ستمبر ۲۰۲۶ء
+انشاء اللہ بعد نمازِ جمعہ ایک چھوٹی سی میٹنگ منعقد ہوگی۔
+تمام بھائیوں سے گزارش ہے کہ اپنی حاضری کو لازمی اور یقینی بنائیں۔
             </p>
-            <button onclick="toggleModal('notice-popup', false)" class="w-full py-3 bg-amber-500 text-black hover:bg-amber-400 active:scale-95 rounded-xl font-semibold transition-all text-sm">Acknowledge</button>
+            <button onclick="closeNoticeManual()" class="w-full py-3 bg-amber-500 text-black hover:bg-amber-400 active:scale-95 rounded-xl font-semibold transition-all text-sm">Acknowledge</button>
         </div>
     </div>
 
@@ -260,6 +263,9 @@
     </nav>
 
     <script>
+        // Unique ID for current announcement (Change this value when sending a NEW announcement)
+        const CURRENT_ANNOUNCEMENT_ID = "announcement_11_sep_v1";
+
         // Initialize Lucide Icons
         lucide.createIcons();
 
@@ -303,6 +309,20 @@
             }
         }
 
+        // Manual Close Function for Auto Notice
+        function closeNoticeManual() {
+            toggleModal('notice-popup', false);
+            localStorage.setItem('seen_announcement', CURRENT_ANNOUNCEMENT_ID);
+        }
+
+        // Check & Auto Open Notice Modal
+        function checkAutoNotice() {
+            const lastSeen = localStorage.getItem('seen_announcement');
+            if (lastSeen !== CURRENT_ANNOUNCEMENT_ID) {
+                toggleModal('notice-popup', true);
+            }
+        }
+
         // Account Copy Helper
         function copyAccount(num) {
             navigator.clipboard.writeText(num);
@@ -329,7 +349,11 @@
             const splash = document.getElementById('splash');
             setTimeout(() => {
                 splash.style.opacity = '0';
-                setTimeout(() => { splash.style.display = 'none'; }, 500);
+                setTimeout(() => { 
+                    splash.style.display = 'none'; 
+                    // Auto open announcement modal after splash screen disappears
+                    checkAutoNotice();
+                }, 500);
             }, 3000); // Set to 3000ms (3 Seconds)
 
             const lastTab = localStorage.getItem('activeTab') || 'ledger';
@@ -366,4 +390,4 @@
         }
     </script>
 </body>
-                </html>
+            </html>
