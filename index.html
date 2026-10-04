@@ -141,6 +141,9 @@
                 <i data-lucide="delete" class="w-5 h-5"></i>
             </button>
         </div>
+
+        <!-- Forgot PIN Option for Lock Screen -->
+        <button type="button" onclick="resetPinStorageSecure()" class="text-xs text-amber-400 hover:underline mb-2 font-mono relative z-10">Forgot PIN? Reset</button>
         
         <p id="lock-error" class="text-red-400 text-xs font-semibold h-4 text-center relative z-10"></p>
     </div>
@@ -190,7 +193,7 @@
             </div>
             <h2 class="text-white text-base font-bold mb-2">System Notice</h2>
             <p class="text-slate-400 text-xs leading-relaxed mb-6">
-                پورٹل کو کامیابی سے اپڈیٹ کر دیا گیا ہے! سیکیورٹی کو مزید بہتر بنانے کے لیے اب آپ اپنا 4 ہندسوں کا سیکیورٹی پن (Pin) سیٹ کر سکتے ہیں۔
+                پورٹل کو کامیابی سے اپڈیٹ کر دیا گیا ہے! سیکیورٹی کو مزید بہتر بنانے کے لیے اب آپ اپنا 4 ہندسوں کا سیکیورٹی پن (PIN) سیٹ کر سکتے ہیں۔
             </p>
             <button type="button" onclick="toggleModal('notice-popup', false)" class="w-full py-3 bg-amber-500 text-black rounded-xl font-semibold text-sm">Acknowledge</button>
         </div>
@@ -223,7 +226,7 @@
 
     <script>
         const PIN_KEY = "ftcf_pin_v2";
-        const MASTER_ADMIN_KEY = "7860"; // Aap is Master Code ko change kar sakte hain
+        const MASTER_ADMIN_KEY = "0022"; // Updated Master Admin Key
 
         let enteredPin = "";
         let confirmPin = "";
