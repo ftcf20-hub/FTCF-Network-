@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>FTCF | Professional Portal</title>
     
+    <script src="https://cdn.jsdelivr.net/npm/tailwindcss@3.4.1/lib/index.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <script>
@@ -148,7 +149,7 @@
         <p id="lock-error" class="text-red-400 text-xs font-semibold h-4 text-center relative z-10"></p>
     </div>
 
-    <!-- Header Controls -->
+    <!-- Header Controls (Notice Bell Removed) -->
     <header class="fixed top-4 right-4 z-[60] flex gap-2">
         <button type="button" onclick="toggleModal('voice-popup', true)" title="AI Voice Report" class="w-10 h-10 rounded-2xl glass-panel flex items-center justify-center text-amber-400 hover:text-amber-300 relative animate-pulse">
             <i data-lucide="mic" class="w-4 h-4"></i>
@@ -159,20 +160,16 @@
         <button type="button" onclick="toggleModal('bank-popup', true)" class="w-10 h-10 rounded-2xl glass-panel flex items-center justify-center text-slate-300 hover:text-amber-500">
             <i data-lucide="building-2" class="w-4 h-4"></i>
         </button>
-        <button type="button" onclick="toggleModal('notice-popup', true)" class="relative w-10 h-10 rounded-2xl glass-panel flex items-center justify-center text-slate-300 hover:text-amber-500">
-            <i data-lucide="bell" class="w-4 h-4"></i>
-            <span class="absolute top-2.5 right-2.5 w-2 h-2 bg-red-500 rounded-full ring-2 ring-black"></span>
-        </button>
     </header>
 
-    <!-- AI Voice Report Modal -->
+     <!-- AI Voice Report Modal -->
     <div id="voice-popup" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/70 backdrop-blur-md">
         <div class="glass-panel p-6 rounded-3xl w-full max-w-sm border border-white/10 text-center">
             <div class="w-12 h-12 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center mx-auto mb-4">
                 <i data-lucide="radio" class="w-6 h-6 animate-spin"></i>
             </div>
             <h2 class="text-white text-base font-bold mb-1">FTCF AI Voice Briefing</h2>
-            <p class="text-slate-400 text-xs mb-4">Admin ki taraf se jari kardah mahana report professional AI awaz mein sunein.</p>
+            <p class="text-slate-400 text-xs mb-4">Admin ki taraf se jari kardah mahana report professional male AI awaz mein sunein.</p>
             
             <div class="bg-black/40 p-4 rounded-2xl border border-white/5 mb-5 text-left">
                 <span class="text-[10px] uppercase font-mono tracking-wider text-amber-400 block mb-1">Current Report Text:</span>
@@ -181,7 +178,7 @@
 
             <!-- Play AI Audio Button -->
             <button type="button" onclick="playAiVoice()" class="w-full py-3 bg-amber-500 text-black rounded-xl font-semibold text-sm flex items-center justify-center gap-2 mb-3 shadow-lg shadow-amber-500/20 active:scale-95 transition-all">
-                <i data-lucide="play-circle" class="w-5 h-5"></i> <span id="play-btn-text">Play AI Audio Report</span>
+                <i data-lucide="play-circle" class="w-5 h-5"></i> <span id="play-btn-text">Play Male AI Audio Report</span>
             </button>
 
             <!-- Admin Update Trigger -->
@@ -213,20 +210,6 @@
                 </div>
             </div>
             <button type="button" onclick="toggleModal('bank-popup', false)" class="w-full py-3 bg-white/10 rounded-xl text-white font-medium text-sm">Close</button>
-        </div>
-    </div>
-
-    <!-- Notice Modal -->
-    <div id="notice-popup" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-6 bg-black/70 backdrop-blur-md">
-        <div class="glass-panel p-6 rounded-3xl w-full max-w-sm border border-white/10">
-            <div class="w-12 h-12 bg-amber-500/10 text-amber-500 rounded-2xl flex items-center justify-center mb-4">
-                <i data-lucide="megaphone" class="w-6 h-6"></i>
-            </div>
-            <h2 class="text-white text-base font-bold mb-2">System Notice</h2>
-            <p class="text-slate-400 text-xs leading-relaxed mb-6">
-                پورٹل میں اب **AI Voice Report** کا فیچر شامل کر دیا گیا ہے! اب ایڈمن کی آواز کو پروفیشنل AI این anúncer آواز میں سن سکیں گے۔
-            </p>
-            <button type="button" onclick="toggleModal('notice-popup', false)" class="w-full py-3 bg-amber-500 text-black rounded-xl font-semibold text-sm">Acknowledge</button>
         </div>
     </div>
 
@@ -354,6 +337,11 @@
         function openDashboard() {
             document.getElementById('lock-screen').style.display = 'none';
             switchTab('ledger', document.querySelector('[data-target="ledger"]'));
+            
+            // Auto open AI Voice Report popup when app opens successfully
+            setTimeout(() => {
+                toggleModal('voice-popup', true);
+            }, 600);
         }
 
         function resetPinStorageSecure() {
@@ -377,7 +365,7 @@
         }
 
         function adminUpdateVoiceReport() {
-            const masterInput = prompt("Voice Report update karne ke liye Admin Master Key (0022) enter karein:");
+            const masterInput = prompt("Voice Report update karne ke liye Admin Master Key enter karein:");
             if (masterInput === MASTER_ADMIN_KEY) {
                 const newText = prompt("Naya voice report paigham (Roman Urdu ya English mein) yahan type karein:");
                 if (newText && newText.trim() !== "") {
@@ -399,18 +387,25 @@
             const textToSpeak = localStorage.getItem(VOICE_REPORT_KEY) || document.getElementById('display-voice-text').innerText;
             const utterance = new SpeechSynthesisUtterance(textToSpeak);
             
-            utterance.lang = 'ur-PK'; // Urdu/English mix support
-            utterance.rate = 0.95; // Natural smooth speed
-            utterance.pitch = 1.0;
+            utterance.lang = 'ur-PK'; 
+            utterance.rate = 0.92; // Smooth anchor pace
+            utterance.pitch = 0.7; // Lower pitch to ensure a deep/professional male voice feel
+
+            // Try to find and select a male voice if available in browser
+            const voices = window.speechSynthesis.getVoices();
+            const maleVoice = voices.find(v => v.lang.includes('ur') || v.lang.includes('hi') || v.lang.includes('en')) || voices[0];
+            if (maleVoice) {
+                utterance.voice = maleVoice;
+            }
 
             const btnText = document.getElementById('play-btn-text');
-            btnText.innerText = "Playing AI Audio...";
+            btnText.innerText = "Playing Male AI Audio...";
 
             utterance.onend = function() {
-                btnText.innerText = "Play AI Audio Report";
+                btnText.innerText = "Play Male AI Audio Report";
             };
             utterance.onerror = function() {
-                btnText.innerText = "Play AI Audio Report";
+                btnText.innerText = "Play Male AI Audio Report";
             };
 
             window.speechSynthesis.speak(utterance);
@@ -440,7 +435,11 @@
         window.onload = function() {
             if (typeof lucide !== 'undefined') lucide.createIcons();
             initPasscode();
+            // Load voices early for synthesis
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.onvoiceschanged = function() { window.speechSynthesis.getVoices(); };
+            }
         };
     </script>
-</body>
+    </body>
 </html>
